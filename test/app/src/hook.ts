@@ -261,11 +261,21 @@ export function useCallInvites(
             try {
               await callInvite.accept();
             } catch (err) {
-              const message = err.message;
-              const code = err.code;
-              logEvent(
-                `accept rejected: ${JSON.stringify({ message, code }, null, 2)}`
-              );
+              if (err instanceof Error) {
+                const message = err.message;
+                const code = (err as any).code;
+                logEvent(
+                  `accept rejected: ${JSON.stringify(
+                    { message, code },
+                    null,
+                    2
+                  )}`
+                );
+              } else {
+                logEvent(
+                  `accept rejected: ${JSON.stringify({ message: String(err) })}`
+                );
+              }
             }
           },
           callSid,
@@ -382,11 +392,17 @@ export function useVoice(token: string) {
         });
         callHandler(call);
       } catch (err) {
-        const message = err.message;
-        const code = err.code;
-        logEvent(
-          `connect rejected: ${JSON.stringify({ message, code }, null, 2)}`
-        );
+        if (err instanceof Error) {
+          const message = err.message;
+          const code = (err as any).code;
+          logEvent(
+            `connect rejected: ${JSON.stringify({ message, code }, null, 2)}`
+          );
+        } else {
+          logEvent(
+            `connect rejected: ${JSON.stringify({ message: String(err) })}`
+          );
+        }
       }
     },
     [callHandler, token, voice, logEvent]
