@@ -8,6 +8,9 @@ import com.twilio.voice.ConnectOptions
 import java.util.HashMap
 import java.util.UUID
 
+import com.twiliovoicereactnative.CallRecordDatabase.CallRecord
+
+
 class ExpoModule : Module() {
   override fun definition() = ModuleDefinition {
     Name("TwilioVoiceExpo")
